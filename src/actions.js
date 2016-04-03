@@ -1,7 +1,8 @@
-export const SAY_HELLO = 'SAY_HELLO'
+export const SET_STATUS = 'SET_STATUS'
 
-export function sayHello() {
+export function setStatus(status) {
 	return {
-		type: SAY_HELLO
+		type: SET_STATUS,
+		status: status
 	}
 }

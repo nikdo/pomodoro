@@ -1,42 +1,44 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { sayHello } from '../actions'
+import { setStatus } from '../actions'
 import Counter from '../components/Counter'
 
-const statuses = ['Work', 'Break', 'Done']
-const durations = [10, 5, 0]
-
-const getStatus = function(status, secondsRemaining) {
-	return status == 2 ? status : (secondsRemaining > 0 ? status : (status + 1) % 3)
-}
-
-const getSecondsRemaining = function(status, secondsRemaining) {
-	return status == 2 ? 0 : (secondsRemaining > 0 ? secondsRemaining - 1 : durations[(status + 1) % 3])
-}
+const states = [
+	{ name: 'Work', duration: 10 },
+	{ name: 'Break', duration: 5 },
+	{ name: 'Done', duration: 0}
+]
 
 class App extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			secondsRemaining: durations[0],
-			status: 0
+			secondsRemaining: states[0].duration
 		}
 		this.tick = this.tick.bind(this)
 	}
 
 	tick() {
+		const status = this.props.status
+		if (this.state.secondsRemaining == 0 && status < 2)
+			this.props.dispatch(this.props.dispatch(setStatus(status + 1)))
+
 		this.setState(
 			{
-				secondsRemaining: getSecondsRemaining(this.state.status, this.state.secondsRemaining),
-				status: getStatus(this.state.status, this.state.secondsRemaining)
+				secondsRemaining: this.state.secondsRemaining == 0 ? 0 : this.state.secondsRemaining - 1
 			}
 		)
 	}
 
 	componentDidMount() {
 		this.interval = setInterval(this.tick, 1000)
-		this.props.dispatch(sayHello())
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			secondsRemaining: this.props.status != nextProps.status ? states[nextProps.status].duration : this.state.secondsRemaining
+		})
 	}
 
 	componentWillUnmount() {
@@ -46,12 +48,11 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				{this.props.hello}
-				<p>{statuses[this.state.status]}</p>
+				<h2>{states[this.props.status].name}</h2>
 				<Counter sec={this.state.secondsRemaining} />
 			</div>
 		)
 	}
 }
 
-export default connect(state => { return ({ hello: state.hello }) })(App)
+export default connect(state => { return ({ status: state.status }) })(App)
