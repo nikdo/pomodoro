@@ -36,4 +36,4 @@ class App extends Component {
 	}
 }
 
-export default connect(state => { return ({ status: state.status, secondsRemaining: state.secondsRemaining }) })(App)
+export default connect(state => state)(App)
