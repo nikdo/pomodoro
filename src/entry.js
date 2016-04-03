@@ -1,12 +1,19 @@
 import styles from './styles/main.styl'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import createLogger from 'redux-logger'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
 import App from './containers/App'
 
-const store = createStore(rootReducer)
+const logger = createLogger({
+	collapsed: true,
+	predicate: () => NODE_ENV === 'development'
+})
+const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore)
+const store = createStoreWithMiddleware(rootReducer)
 
 ReactDOM.render(
 	<Provider store={store}>

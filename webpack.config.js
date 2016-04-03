@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
 	entry: "./src/entry.js",
 	output: {
@@ -19,5 +21,10 @@ module.exports = {
 			}
 		]
 	},
-	devtool: 'source-map'
+	devtool: 'source-map',
+	plugins: [
+		new webpack.DefinePlugin({
+			NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+		})
+	]
 }

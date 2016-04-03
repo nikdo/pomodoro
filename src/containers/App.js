@@ -1,29 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setStatus, tick } from '../actions'
+import { start, stop } from '../actions'
 import { states } from '../config'
 import Counter from '../components/Counter'
 
 class App extends Component {
 
-	constructor(props) {
-		super(props)
-		this.tick = this.tick.bind(this)
-	}
-
-	tick() {
-		this.props.dispatch(tick())
-		const status = this.props.status
-		if (this.props.seconds == 0 && status < 2)
-			this.props.dispatch(this.props.dispatch(setStatus(status + 1)))
-	}
-
 	componentDidMount() {
-		this.interval = setInterval(this.tick, 1000)
+		this.props.dispatch(start())
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.interval)
+		this.props.dispatch(stop())
 	}
 
 	render() {

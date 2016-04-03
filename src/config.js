@@ -3,3 +3,7 @@ export const states = [
 	{ name: 'Break', duration: 5 },
 	{ name: 'Done', duration: 0}
 ]
+
+export const WORK = 0
+export const BREAK = 1
+export const DONE = 2
