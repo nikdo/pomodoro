@@ -14,7 +14,7 @@ class App extends Component {
 	tick() {
 		this.props.dispatch(tick())
 		const status = this.props.status
-		if (this.props.secondsRemaining == 0 && status < 2)
+		if (this.props.seconds == 0 && status < 2)
 			this.props.dispatch(this.props.dispatch(setStatus(status + 1)))
 	}
 
@@ -30,7 +30,7 @@ class App extends Component {
 		return (
 			<div>
 				<h2>{states[this.props.status].name}</h2>
-				<Counter sec={this.props.secondsRemaining} />
+				<Counter sec={this.props.seconds} />
 			</div>
 		)
 	}
