@@ -1,11 +1,8 @@
-import React, { Component } from 'react'
-import DocumentTitle from 'react-document-title'
+import React from 'react'
 
-export default ({sec}) => {
-	const remainingTime = Math.floor(sec/60) + ':' + ('0' + sec%60).slice(-2)
-	return (
-		<DocumentTitle title={remainingTime}>
-			<div>{remainingTime}</div>
-		</DocumentTitle>
-	)
-}
+export default ({status, remainingTime}) => (
+	<div>
+		<h2>{status}</h2>
+		<p className="counter">{remainingTime}</p>
+	</div>
+)
