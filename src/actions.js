@@ -35,6 +35,7 @@ function pause() {
 export function start() {
 	return (dispatch, getState) => {
 		dispatch(go())
+		dispatch(tick()) // tick imediately after activation
 		interval = setInterval(() => {
 			dispatch(tick())
 			const state = getState()
