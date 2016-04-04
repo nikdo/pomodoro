@@ -17,7 +17,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<DocumentTitle title={this.props.status + ': ' + this.props.remainingTime}>
+			<DocumentTitle title={this.props.status.name + ': ' + this.props.remainingTime}>
 				<Counter status={this.props.status} remainingTime={this.props.remainingTime} />
 			</DocumentTitle>
 		)
@@ -26,7 +26,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		status: states[state.status].name,
+		status: states[state.status],
 		remainingTime: Math.floor(state.seconds/60) + ':' + ('0' + state.seconds%60).slice(-2)
 	}
 }

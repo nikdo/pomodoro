@@ -1,7 +1,7 @@
 export const states = [
-	{ name: 'Work', duration: 10 },
-	{ name: 'Break', duration: 5 },
-	{ name: 'Done', duration: 0}
+	{ name: 'Work', duration: 10, icon: 'glyphicon-fire' },
+	{ name: 'Break', duration: 5, icon: 'glyphicon-flash' },
+	{ name: 'Done', duration: 0, icon: 'glyphicon-check' }
 ]
 
 export const WORK = 0
