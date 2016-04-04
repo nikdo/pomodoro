@@ -4,12 +4,9 @@ import DocumentTitle from 'react-document-title'
 import { start, stop } from '../actions'
 import { states } from '../config'
 import Counter from '../components/Counter'
+import Controls from '../components/Controls'
 
 class App extends Component {
-
-	componentDidMount() {
-		this.props.dispatch(start())
-	}
 
 	componentWillUnmount() {
 		this.props.dispatch(stop())
@@ -18,7 +15,13 @@ class App extends Component {
 	render() {
 		return (
 			<DocumentTitle title={this.props.status.name + ': ' + this.props.remainingTime}>
-				<Counter status={this.props.status} remainingTime={this.props.remainingTime} />
+				<div>
+					<Counter status={this.props.status} remainingTime={this.props.remainingTime} />
+					<Controls
+						paused={this.props.paused}
+						start={() => this.props.dispatch(start())}
+						stop={() => this.props.dispatch(stop())}/>
+				</div>
 			</DocumentTitle>
 		)
 	}
@@ -27,7 +30,8 @@ class App extends Component {
 const mapStateToProps = (state) => {
 	return {
 		status: states[state.status],
-		remainingTime: Math.floor(state.seconds/60) + ':' + ('0' + state.seconds%60).slice(-2)
+		remainingTime: Math.floor(state.seconds/60) + ':' + ('0' + state.seconds%60).slice(-2),
+		paused: state.paused
 	}
 }
 

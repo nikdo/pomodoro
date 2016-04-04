@@ -2,6 +2,8 @@ import { WORK, BREAK, DONE } from './config'
 
 export const SET_STATUS = 'SET_STATUS'
 export const TICK = 'TICK'
+export const GO = 'GO'
+export const PAUSE = 'PAUSE'
 
 let interval
 
@@ -18,8 +20,21 @@ function tick() {
 	}
 }
 
+function go() {
+	return {
+		type: GO
+	}
+}
+
+function pause() {
+	return {
+		type: PAUSE
+	}
+}
+
 export function start() {
 	return (dispatch, getState) => {
+		dispatch(go())
 		interval = setInterval(() => {
 			dispatch(tick())
 			const state = getState()
@@ -37,5 +52,8 @@ export function start() {
 }
 
 export function stop() {
-	return () => clearInterval(interval)
+	return (dispatch) => {
+		dispatch(pause())
+		clearInterval(interval)
+	}
 }
