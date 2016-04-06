@@ -10,7 +10,7 @@ import App from './containers/App'
 
 const logger = createLogger({
 	collapsed: true,
-	predicate: () => NODE_ENV === 'development'
+	predicate: () => process.env.NODE_ENV === 'development'
 })
 const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore)
 const store = createStoreWithMiddleware(rootReducer)
