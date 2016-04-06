@@ -6,6 +6,10 @@ import { states } from '../config'
 import Counter from '../components/Counter'
 import Controls from '../components/Controls'
 
+function getTitle(statusName, remainingTime) {
+	return statusName ? `${statusName}: ${remainingTime}` : 'Pomodoro'
+}
+
 class App extends Component {
 
 	componentWillUnmount() {
@@ -14,7 +18,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<DocumentTitle title={this.props.status.name + ': ' + this.props.remainingTime}>
+			<DocumentTitle title={getTitle(this.props.status.name, this.props.remainingTime)}>
 				<div>
 					<Counter status={this.props.status} remainingTime={this.props.remainingTime} />
 					<Controls
