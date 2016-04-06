@@ -1,42 +1,40 @@
-import { combineReducers } from 'redux'
-import { SET_STATUS, TICK, GO, PAUSE } from './actions'
-import { states } from './config'
+import { TICK, START, STOP } from './actions'
+import { states, IDLE, WORK, BREAK, DONE } from './config'
 
-function status(state = 0, action) {
-	switch (action.type) {
-		case SET_STATUS:
-			return action.status
-		default:
-			return state
-	}
-}
+const initialState = { status: IDLE, seconds: states[WORK].duration, paused: true }
 
-function seconds(state = states[0].duration, action) {
+export default (state = initialState, action) => {
 	switch (action.type) {
-		case SET_STATUS:
-			return states[action.status].duration
+
 		case TICK:
-			return state == 0 ? 0 : state - 1
+			if (state.seconds == 1) {
+				if (state.status == WORK)
+					return { status: BREAK, seconds: states[BREAK].duration, paused: false }
+				if (state.status == BREAK)
+					return { status: DONE, seconds: 0, paused: true }
+			}
+			else
+				return { status: state.status, seconds: state.seconds - 1, paused: false }
+
+		case START:
+			return {
+				status: state.status == IDLE || state.status == DONE
+					? WORK
+					: state.status,
+				seconds: state.status == IDLE || state.status == DONE
+					? states[WORK].duration
+					: state.seconds,
+				paused: false
+			}
+
+		case STOP:
+			return {
+				status: state.status,
+				seconds: state.seconds,
+				paused: true
+			}
+
 		default:
 			return state
 	}
 }
-
-function paused(state = true, action) {
-	switch (action.type) {
-		case GO:
-			return false
-		case PAUSE:
-			return true
-		default:
-			return state
-	}
-}
-
-const rootReducer = combineReducers({
-	status,
-	seconds,
-	paused
-})
-
-export default rootReducer
