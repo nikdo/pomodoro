@@ -16,6 +16,6 @@ export const BREAK_SOUND = 'door_bell'
 window.ion.sound({
 	sounds: [{ name: DONE_SOUND }, { name: BREAK_SOUND }],
 	path: 'sounds/',
-	volume: 0.6,
+	volume: 1,
 	preload: true
 })
