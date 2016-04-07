@@ -5,6 +5,7 @@
   "author": "Radek Matej",
   "private": false,
   "dependencies": {
+    "progressbar.js": "1.0.0",
     "react": "0.14.8",
     "react-document-title": "2.0.1",
     "react-dom": "0.14.8",

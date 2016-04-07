@@ -2,12 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
 import { start, stop } from '../actions'
-import { states, BREAK, DONE, BREAK_SOUND, DONE_SOUND } from '../config'
-import Counter from '../components/Counter'
+import { states, IDLE, WORK, BREAK, DONE, BREAK_SOUND, DONE_SOUND } from '../config'
+import Status from '../components/Status'
+import Progress from '../components/Progress'
 import Controls from '../components/Controls'
 
 function getTitle(statusName, remainingTime) {
 	return statusName ? `${statusName}: ${remainingTime}` : 'Pomodoro'
+}
+
+function formatRemainingTime(seconds) {
+	return Math.floor(seconds/60) + ':' + ('0' + seconds%60).slice(-2)
 }
 
 class App extends Component {
@@ -30,7 +35,10 @@ class App extends Component {
 		return (
 			<DocumentTitle title={getTitle(status.name, this.props.remainingTime)}>
 				<div>
-					<Counter status={status} remainingTime={this.props.remainingTime} />
+					<Status status={status} />
+					<Progress
+						percent={this.props.progress}
+						remainingTime={this.props.remainingTime} />
 					<Controls
 						paused={this.props.paused}
 						start={() => this.props.dispatch(start())}
@@ -42,9 +50,13 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+	const totalSeconds = state.status == IDLE || state.status == WORK
+		? states[WORK].duration
+		: states[BREAK].duration
 	return {
 		status: state.status,
-		remainingTime: Math.floor(state.seconds/60) + ':' + ('0' + state.seconds%60).slice(-2),
+		progress: state.seconds / totalSeconds,
+		remainingTime: formatRemainingTime(state.seconds),
 		paused: state.paused
 	}
 }
