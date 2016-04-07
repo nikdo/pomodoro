@@ -9,12 +9,12 @@ export default (state = initialState, action) => {
 		case TICK:
 			if (state.seconds == 1) {
 				if (state.status == WORK)
-					return { status: BREAK, seconds: states[BREAK].duration, paused: false }
+					return Object.assign({}, state, { status: BREAK, seconds: states[BREAK].duration})
 				if (state.status == BREAK)
 					return { status: DONE, seconds: 0, paused: true }
 			}
 			else
-				return { status: state.status, seconds: state.seconds - 1, paused: false }
+				return Object.assign({}, state, {seconds: state.seconds - 1})
 
 		case START:
 			return {
@@ -28,11 +28,7 @@ export default (state = initialState, action) => {
 			}
 
 		case STOP:
-			return {
-				status: state.status,
-				seconds: state.seconds,
-				paused: true
-			}
+			return Object.assign({}, state, {paused: true})
 
 		default:
 			return state
