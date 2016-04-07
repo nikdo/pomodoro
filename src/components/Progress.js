@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import ProgressBar from 'progressbar.js'
 
+Piecon.setOptions({
+	color: '#000',
+	background: '#ededed',
+	shadow: '#000',
+	fallback: false
+})
+
 let circle
 
 class Progress extends Component {
@@ -18,11 +25,13 @@ class Progress extends Component {
 			}
 		})
 		circle.set(1)
+		Piecon.setProgress(100);
 	}
 
 	componentDidUpdate() {
 		circle.animate(this.props.percent, { duration: 200 })
 		circle.text.innerHTML = this.props.remainingTime
+		Piecon.setProgress(this.props.percent*100);
 	}
 
 	render() {
