@@ -1,8 +1,9 @@
 import { TICK, START, STOP } from './actions'
 import { states, IDLE, WORK, BREAK, DONE } from './config'
 
-const POMODORO_DURATION = process.env.NODE_ENV == 'development' ? 10 : 25*60
-const BREAK_DURATION = process.env.NODE_ENV == 'development' ? 5 : 5*60
+const POMODORO_DURATION = process.env.NODE_ENV == 'development' ? 5 : 25*60
+const BREAK_DURATION = process.env.NODE_ENV == 'development' ? 3 : 5*60
+const LONG_BREAK_DURATION = process.env.NODE_ENV == 'development' ? 15 : 25*60
 
 const initialState = {
 	status: IDLE,
@@ -12,23 +13,29 @@ const initialState = {
 	pomodoros: 0
 }
 
+function getBreakLength(completedPomodoros) {
+	return completedPomodoros % 4 ? BREAK_DURATION : LONG_BREAK_DURATION
+}
+
 export default (state = initialState, action) => {
 	switch (action.type) {
 
 		case TICK:
 			if (state.seconds == 1) {
-				if (state.status == WORK)
+				if (state.status == WORK) {
+					const completedPomodoros = state.pomodoros + 1
 					return Object.assign({}, state, {
 						status: BREAK,
-						seconds: BREAK_DURATION,
-						duration: BREAK_DURATION
+						seconds: getBreakLength(completedPomodoros),
+						duration: getBreakLength(completedPomodoros),
+						pomodoros: completedPomodoros
 					})
+				}
 				if (state.status == BREAK)
 					return Object.assign({}, state, {
 						status: DONE,
 						seconds: 0,
-						paused: true,
-						pomodoros: state.pomodoros + 1
+						paused: true
 					})
 			}
 			else
