@@ -1,8 +1,8 @@
 export const states = [
 	{ icon: 'glyphicon-off' },
-	{ name: 'Work', duration: process.env.NODE_ENV == 'development' ? 10 : 25*60, icon: 'glyphicon-fire' },
-	{ name: 'Break', duration: process.env.NODE_ENV == 'development' ? 5 : 5*60, icon: 'glyphicon-flash' },
-	{ name: 'Done', icon: 'glyphicon-check' }
+	{ icon: 'glyphicon-fire', name: 'Work' },
+	{ icon: 'glyphicon-flash', name: 'Break' },
+	{ icon: 'glyphicon-check', name: 'Done' }
 ]
 
 export const IDLE = 0

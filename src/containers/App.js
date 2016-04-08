@@ -50,12 +50,9 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-	const totalSeconds = state.status == IDLE || state.status == WORK
-		? states[WORK].duration
-		: states[BREAK].duration
 	return {
 		status: state.status,
-		progress: state.seconds / totalSeconds,
+		progress: state.seconds / state.duration,
 		remainingTime: formatRemainingTime(state.seconds),
 		paused: state.paused
 	}
