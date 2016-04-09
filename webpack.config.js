@@ -15,10 +15,8 @@ module.exports = {
 					presets: ['es2015', 'react']
 				}
 			},
-			{
-				test: /\.styl$/,
-				loader: 'style-loader!css-loader!stylus-loader'
-			}
+			{ test: /\.styl$/, loader: 'style-loader!css-loader!stylus-loader' },
+			{ test: /\.png$/, loader: 'file-loader' }
 		]
 	},
 	devtool: 'source-map',

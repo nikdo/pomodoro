@@ -45,6 +45,11 @@ class App extends Component {
 						stop={() => this.props.dispatch(stop())}
 						skip={() => this.props.dispatch(skip())}
 						showSkip={this.props.status == BREAK} />
+					<div className="pomodoros">
+						{Array.apply(0, Array(this.props.pomodoros)).map((x, i) =>
+							<span className="pomodoro" key={i}></span>)
+						}
+					</div>
 				</div>
 			</DocumentTitle>
 		)
@@ -56,7 +61,8 @@ const mapStateToProps = (state) => {
 		status: state.status,
 		progress: state.seconds / state.duration,
 		remainingTime: formatRemainingTime(state.seconds),
-		paused: state.paused
+		paused: state.paused,
+		pomodoros: state.pomodoros
 	}
 }
 
