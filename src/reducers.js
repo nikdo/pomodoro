@@ -1,8 +1,8 @@
-import { TICK, START, STOP } from './actions'
+import { TICK, START, STOP, SKIP } from './actions'
 import { states, IDLE, WORK, BREAK, DONE } from './config'
 
-const POMODORO_DURATION = process.env.NODE_ENV == 'development' ? 5 : 25*60
-const BREAK_DURATION = process.env.NODE_ENV == 'development' ? 3 : 5*60
+const POMODORO_DURATION = process.env.NODE_ENV == 'development' ? 10 : 25*60
+const BREAK_DURATION = process.env.NODE_ENV == 'development' ? 5 : 5*60
 const LONG_BREAK_DURATION = process.env.NODE_ENV == 'development' ? 15 : 25*60
 
 const initialState = {
@@ -55,6 +55,14 @@ export default (state = initialState, action) => {
 
 		case STOP:
 			return Object.assign({}, state, {paused: true})
+
+		case SKIP:
+			return Object.assign({}, state, state.status == BREAK ? {
+					status: IDLE,
+					seconds: POMODORO_DURATION,
+					duration: POMODORO_DURATION,
+					paused: true
+				} : {})
 
 		default:
 			return state
