@@ -1,6 +1,7 @@
 export const TICK = 'TICK'
 export const START = 'START'
 export const STOP = 'STOP'
+export const SKIP = 'SKIP'
 
 let interval
 
@@ -24,7 +25,9 @@ export function start() {
 }
 
 export function stop() {
-	return {
-		type: STOP
-	}
+	return { type: STOP }
+}
+
+export function skip() {
+	return { type: SKIP }
 }

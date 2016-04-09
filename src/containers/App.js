@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
-import { start, stop } from '../actions'
+import { start, stop, skip } from '../actions'
 import { states, IDLE, WORK, BREAK, DONE, BREAK_SOUND, DONE_SOUND } from '../config'
 import Status from '../components/Status'
 import Progress from '../components/Progress'
@@ -42,7 +42,9 @@ class App extends Component {
 					<Controls
 						paused={this.props.paused}
 						start={() => this.props.dispatch(start())}
-						stop={() => this.props.dispatch(stop())}/>
+						stop={() => this.props.dispatch(stop())}
+						skip={() => this.props.dispatch(skip())}
+						showSkip={this.props.status == BREAK} />
 				</div>
 			</DocumentTitle>
 		)
