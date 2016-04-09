@@ -1,5 +1,5 @@
 export const states = [
-	{ icon: 'glyphicon-off' },
+	{ name: 'Pomodoro' },
 	{ icon: 'glyphicon-fire', name: 'Work' },
 	{ icon: 'glyphicon-flash', name: 'Break' },
 	{ icon: 'glyphicon-check', name: 'Done' }
