@@ -18,6 +18,7 @@ export function start() {
 	return (dispatch, getState) => {
 		dispatch({ type: START })
 		dispatch(tick()) // tick imediately after activation
+		clearInterval(interval) // in the case interval was not yet cleared (fast start clicking)
 		interval = setInterval(() => {
 			dispatch(tick())
 		}, 1000)
