@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 import ProgressBar from 'progressbar.js'
-
-Piecon.setOptions({
-	color: '#000',
-	background: '#ededed',
-	shadow: '#000',
-	fallback: false
-})
+import Piecon from 'piecon'
 
 let circle
 
@@ -25,6 +19,13 @@ class Progress extends Component {
 			}
 		})
 		circle.set(1)
+
+		Piecon.setOptions({
+			color: '#000',
+			background: '#ededed',
+			shadow: '#000',
+			fallback: false
+		})
 		Piecon.setProgress(100);
 	}
 
