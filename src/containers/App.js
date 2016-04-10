@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
+import '../../node_modules/ion-sound/js/ion.sound.js'
 import { start, stop, skip } from '../actions'
 import { states, IDLE, WORK, BREAK, DONE, BREAK_SOUND, DONE_SOUND } from '../config'
 import Status from '../components/Status'
@@ -17,6 +18,15 @@ function formatRemainingTime(seconds) {
 
 class App extends Component {
 
+	componentDidMount() {
+		ion.sound({
+			sounds: [{ name: DONE_SOUND }, { name: BREAK_SOUND }],
+			path: 'sounds/',
+			volume: 1,
+			preload: true
+		})
+	}
+
 	componentWillUnmount() {
 		this.props.dispatch(stop())
 	}
@@ -24,9 +34,9 @@ class App extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.status != this.props.status) {
 			if (nextProps.status == BREAK)
-				window.ion.sound.play(BREAK_SOUND)
+				ion.sound.play(BREAK_SOUND)
 			else if (nextProps.status == DONE)
-				window.ion.sound.play(DONE_SOUND)
+				ion.sound.play(DONE_SOUND)
 		}
 	}
 

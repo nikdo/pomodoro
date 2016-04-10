@@ -12,10 +12,3 @@ export const DONE = 3
 
 export const DONE_SOUND = 'bell_ring'
 export const BREAK_SOUND = 'door_bell'
-
-window.ion.sound({
-	sounds: [{ name: DONE_SOUND }, { name: BREAK_SOUND }],
-	path: 'sounds/',
-	volume: 1,
-	preload: true
-})
