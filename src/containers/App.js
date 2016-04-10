@@ -7,6 +7,7 @@ import Status from '../components/Status'
 import Beep from '../components/Beep'
 import Progress from '../components/Progress'
 import Controls from '../components/Controls'
+import Pomodoros from '../components/Pomodoros'
 
 function getTitle(statusName, remainingTime) {
 	return statusName ? `${statusName}: ${remainingTime}` : 'Pomodoro'
@@ -23,26 +24,20 @@ class App extends Component {
 	}
 
 	render() {
-		const {status} = this.props
+		const {status, remainingTime, progress, paused, pomodoros, dispatch} = this.props
 		return (
-			<DocumentTitle title={getTitle(states[status].name, this.props.remainingTime)}>
+			<DocumentTitle title={getTitle(states[status].name, remainingTime)}>
 				<div>
 					<Status status={states[status]} />
 					<Beep status={status} />
-					<Progress
-						percent={this.props.progress}
-						remainingTime={this.props.remainingTime} />
+					<Progress percent={progress} remainingTime={remainingTime} />
 					<Controls
-						paused={this.props.paused}
-						start={() => this.props.dispatch(start())}
-						stop={() => this.props.dispatch(stop())}
-						skip={() => this.props.dispatch(skip())}
+						paused={paused}
+						start={() => dispatch(start())}
+						stop={() => dispatch(stop())}
+						skip={() => dispatch(skip())}
 						showSkip={status == BREAK} />
-					<div className="pomodoros">
-						{Array.apply(0, Array(this.props.pomodoros)).map((x, i) =>
-							<span className="pomodoro" key={i}></span>)
-						}
-					</div>
+					<Pomodoros count={pomodoros} />
 				</div>
 			</DocumentTitle>
 		)
