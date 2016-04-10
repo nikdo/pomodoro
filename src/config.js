@@ -9,6 +9,3 @@ export const IDLE = 0
 export const WORK = 1
 export const BREAK = 2
 export const DONE = 3
-
-export const DONE_SOUND = 'bell_ring'
-export const BREAK_SOUND = 'door_bell'

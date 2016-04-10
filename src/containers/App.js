@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import DocumentTitle from 'react-document-title'
-import '../../node_modules/ion-sound/js/ion.sound.js'
 import { start, stop, skip } from '../actions'
-import { states, IDLE, WORK, BREAK, DONE, BREAK_SOUND, DONE_SOUND } from '../config'
+import { states, BREAK } from '../config'
 import Status from '../components/Status'
+import Beep from '../components/Beep'
 import Progress from '../components/Progress'
 import Controls from '../components/Controls'
 
@@ -18,34 +18,17 @@ function formatRemainingTime(seconds) {
 
 class App extends Component {
 
-	componentDidMount() {
-		ion.sound({
-			sounds: [{ name: DONE_SOUND }, { name: BREAK_SOUND }],
-			path: 'sounds/',
-			volume: 1,
-			preload: true
-		})
-	}
-
 	componentWillUnmount() {
 		this.props.dispatch(stop())
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.status != this.props.status) {
-			if (nextProps.status == BREAK)
-				ion.sound.play(BREAK_SOUND)
-			else if (nextProps.status == DONE)
-				ion.sound.play(DONE_SOUND)
-		}
-	}
-
 	render() {
-		const status = states[this.props.status]
+		const {status} = this.props
 		return (
-			<DocumentTitle title={getTitle(status.name, this.props.remainingTime)}>
+			<DocumentTitle title={getTitle(states[status].name, this.props.remainingTime)}>
 				<div>
-					<Status status={status} />
+					<Status status={states[status]} />
+					<Beep status={status} />
 					<Progress
 						percent={this.props.progress}
 						remainingTime={this.props.remainingTime} />
@@ -54,7 +37,7 @@ class App extends Component {
 						start={() => this.props.dispatch(start())}
 						stop={() => this.props.dispatch(stop())}
 						skip={() => this.props.dispatch(skip())}
-						showSkip={this.props.status == BREAK} />
+						showSkip={status == BREAK} />
 					<div className="pomodoros">
 						{Array.apply(0, Array(this.props.pomodoros)).map((x, i) =>
 							<span className="pomodoro" key={i}></span>)
